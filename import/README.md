@@ -19,7 +19,4 @@ Data is number of transactions recorded by MBTA fare gates, buses, and light rai
 
 ## Licensing information dataset
 
-## Cab trips dataset0 = no late night service scheduled, 1 = late night service scheduled.
-    This only indicates whether a route currently has late night service, not whether it had late night on that particular day
-    Intended to facilitate comparisons for routes whose hours were extended
-    Some routes will still have transactions after 1am even though they do not have extended hours, this is because their last trip is around 1am
+## Cab trips dataset
