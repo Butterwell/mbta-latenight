@@ -6,7 +6,7 @@
 ## RIDERSHIP DATA
 
 # Load csv
-ridership <- read.csv('LateNight_thru_7June2014.csv', header=TRUE);
+ridership <- read.csv('../data/LateNight_thru_7June2014.csv', header=TRUE);
 # Transform dates
 ridership$scheduledate <- as.Date(ridership$scheduledate, "%m/%d/%Y");
 # Delete nulls
