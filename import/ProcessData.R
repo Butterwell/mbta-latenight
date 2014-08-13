@@ -3,7 +3,8 @@
 # for the challenge                                            #
 ################################################################
 
-## RIDERSHIP DATA
+## T RIDERSHIP DATA
+print("======> LOADING T RIDERSHIP DATA");
 
 # Load csv
 ridership <- read.csv('../data/LateNight_thru_7June2014.csv', header=TRUE);
@@ -21,6 +22,7 @@ levels(ridership$day) <- c('fri','sat');
 
 
 ## LICENSES
+print("======> LOADING LICENSING DATA");
 
 # Load and bind files
 require(gdata);
@@ -63,8 +65,10 @@ licenses$zip <- substrRight(as.character(licenses$address), 5);
 rm(substrRight);
 
 # Food establishments
-food <- read.csv('../data/CityOfBoston_Active_Food_Establishment_Licenses.csv',header=TRUE);
-names(food) <- c('name', 'dba', 'address', 'city','state','zip','status','category','description','addedDate','dayPhone','propertyId','location');
+food <- read.csv('../data/CityOfBoston_Active_Food_Establishment_Licenses.csv',
+                 header=TRUE);
+names(food) <- c('name', 'dba', 'address', 'city','state','zip','status','category',
+                 'description','addedDate','dayPhone','propertyId','location');
 food$address <- paste(food$address,food$city,food$state,food$zip);
 licenses$city <- NA;
 licenses$state <- NA;
@@ -75,12 +79,81 @@ licenses$addedDate <- NA;
 licenses$description <- NA;
 food$milestone <- NA;
 food$license <- NA;
-food <- data.frame(food$license,food$category,food$name,food$dba,food$address,food$status,food$milestone,food$zip,food$city,food$state,food$dayPhone,food$propertyId,food$location,food$addedDate,food$description);
-names(food) <- c('license','category','name','dba','address','status','milestone','zip','city','state','dayPhone','propertyId','location','addedDate','description');
+food <- data.frame(food$license,food$category,food$name,food$dba,food$address,
+                   food$status,food$milestone,food$zip,food$city,food$state,
+                   food$dayPhone,food$propertyId,food$location,food$addedDate,
+                   food$description);
+names(food) <- c('license','category','name','dba','address','status','milestone',
+                 'zip','city','state','dayPhone','propertyId','location','addedDate',
+                 'description');
 licenses <- rbind(licenses,food);
 rm(food);
 
 
 ## CAB DATA
+print("======> LOADING CAB DATA");
 
-# Load files
+# Load start files
+startFiles <- list.files(path = "../data", pattern = "^Start", all.files = FALSE,
+                         full.names = FALSE, recursive = FALSE,
+                         ignore.case = FALSE, include.dirs = FALSE, no.. = FALSE);
+cabStart <- NA;
+for (i in seq_along(startFiles)) {
+  print(paste("Processing file", startFiles[i],"..."));
+  tmp <- read.csv(paste('../data',startFiles[i],sep="/"),header=TRUE);
+  names(tmp) <- c('tripId','startLong','startLat','startDate','startTime','startZip');
+  if (is.na(cabStart)) {
+    cabStart <- tmp;
+  }
+  else {
+    cabStart <- rbind(cabStart,tmp);
+  }
+}
+
+rm(startFiles);
+
+
+
+# Load end files
+endFiles <- list.files(path = "../data", pattern = "^End", all.files = FALSE,
+                       full.names = FALSE, recursive = FALSE,
+                       ignore.case = FALSE, include.dirs = FALSE, no.. = FALSE);
+cabEnd <- NA;
+for (i in seq_along(endFiles)) {
+  print(paste("Processing file", endFiles[i],"..."));
+  tmp <- read.csv(paste('../data',endFiles[i],sep="/"),header=TRUE);
+  names(tmp) <- c('tripId','endLong','endLat','endDate','endTime','endZip');
+  if (is.na(cabEnd)) {
+    cabEnd <- tmp;
+  }
+  else {
+    cabEnd <- rbind(cabEnd,tmp);
+  }
+}
+rm(i);
+rm(tmp);
+rm(endFiles);
+
+# Merge start and end files by tripId in single data frame
+print('Merging by tripId...');
+cab <- merge(cabStart,cabEnd,by='tripId',all=TRUE);
+rm(cabStart);
+rm(cabEnd);
+
+# Date transformations
+cab$startDate <- as.Date(substr(as.character(cab$startDate), 1,
+                                nchar(as.character(cab$startDate))-5),"%m/%d/%Y");
+cab$endDate <- as.Date(substr(as.character(cab$endDate), 1,
+                                nchar(as.character(cab$endDate))-5),"%m/%d/%Y");
+
+# Write out CSV files
+print('Writing CSV files...');
+write.csv(cab,'cab.csv',row.names=FALSE);
+write.csv(licenses,'licenses.csv',row.names=FALSE);
+write.csv(ridership,'ridership.csv',row.names=FALSE);
+
+# Save R objects
+print('Saving R objects...');
+save(ridership,licenses,cab,file='lateNightT.R');
+
+print('Done!');
