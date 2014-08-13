@@ -8,7 +8,7 @@ Data is number of transactions recorded by MBTA fare gates, buses, and light rai
 ####Field descriptions:
 
 * `datetime`: date and time of the start of the 15-minute window. Format: `yyyy-mm-dd HH:MM:ss`.
-* `dateOfService`: date of the service. The date does not advance for after-midnight hours.
+* `dateOfService`: date of the service. The date does not advance for after-midnight hours. Format: `yyyy-mm-dd`.
 * `hour`: hour of the service. Values (10pm to 2am): `22`, `23`, `0`, `1` and `2`.
 * `min`: 15-minute window. Values: `0`, `15`, `30` and `45`.
 * `day`: day of the week of the service. As in `dateOfServie`, the day does not advance for after-midnight hours. Values: `fri` and `sat`.
