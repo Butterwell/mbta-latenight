@@ -55,6 +55,30 @@ TAV <- read.xls('../data/INN.xlsx',sheet=1,header=TRUE);
 names(TAV) <- c('license','category','name','dba','address','status','milestone');
 licenses <- rbind(licenses,TAV);
 rm(TAV);
+# Extract zip codes
+substrRight <- function(x, n){
+  substr(x, nchar(x)-n+1, nchar(x))
+}
+licenses$zip <- substrRight(as.character(licenses$address), 5);
+rm(substrRight);
+
+# Food establishments
+food <- read.csv('../data/CityOfBoston_Active_Food_Establishment_Licenses.csv',header=TRUE);
+names(food) <- c('name', 'dba', 'address', 'city','state','zip','status','category','description','addedDate','dayPhone','propertyId','location');
+food$address <- paste(food$address,food$city,food$state,food$zip);
+licenses$city <- NA;
+licenses$state <- NA;
+licenses$dayPhone <- NA;
+licenses$propertyId <- NA;
+licenses$location <- NA;
+licenses$addedDate <- NA;
+licenses$description <- NA;
+food$milestone <- NA;
+food$license <- NA;
+food <- data.frame(food$license,food$category,food$name,food$dba,food$address,food$status,food$milestone,food$zip,food$city,food$state,food$dayPhone,food$propertyId,food$location,food$addedDate,food$description);
+names(food) <- c('license','category','name','dba','address','status','milestone','zip','city','state','dayPhone','propertyId','location','addedDate','description');
+licenses <- rbind(licenses,food);
+rm(food);
 
 
 ## CAB DATA
