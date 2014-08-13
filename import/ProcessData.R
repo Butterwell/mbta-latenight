@@ -15,10 +15,28 @@ ridership <- ridership[!is.na(ridership$scheduledate),];
 # Create factors
 ridership$latenightroute <- factor(ridership$latenightroute);
 levels(ridership$latenightroute) <- c('N','Y');
-names(ridership) <- c('date','latenight','line','station','day','hour','min','tx');
+names(ridership) <- c('dateOfService','latenight','line','station','day','hour','min','tx');
 ridership$min <- ridership$min * 15
 ridership$day <- factor(ridership$day);
 levels(ridership$day) <- c('fri','sat');
+# Datetime composition (advance day for dates after midnight)
+ridership$date <- ridership$dateOfService;
+ridership[ridership$hour==24,"date"] <- ridership[ridership$hour==24,"dateOfService"] + 1;
+ridership[ridership$hour==25,"date"] <- ridership[ridership$hour==25,"dateOfService"] + 1;
+ridership[ridership$hour==26,"date"] <- ridership[ridership$hour==26,"dateOfService"] + 1;
+ridership[ridership$hour==24,"hour"] <- 0;
+ridership[ridership$hour==25,"hour"] <- 1;
+ridership[ridership$hour==26,"hour"] <- 2;
+ridership$datetime <- as.POSIXct(strptime(paste(ridership$date,' ',ridership$hour,':',
+        sprintf('%02d',ridership$min),':00',sep=''), "%Y-%m-%d %H:%M:%S"));
+
+# Reorder fields
+ridership <- data.frame(ridership$datetime, ridership$dateOfService, ridership$hour,
+        ridership$min, ridership$day, ridership$latenight, ridership$line,
+        ridership$station, ridership$tx);
+names(ridership) <- c('datetime', 'dateOfService', 'hour', 'min', 'day', 'latenight',
+                      'line', 'station', 'tx');
+
 
 
 ## LICENSES
