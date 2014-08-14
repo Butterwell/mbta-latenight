@@ -88,24 +88,33 @@ food <- read.csv('../data/CityOfBoston_Active_Food_Establishment_Licenses.csv',
 names(food) <- c('name', 'dba', 'address', 'city','state','zip','status','category',
                  'description','addedDate','dayPhone','propertyId','location');
 food$address <- paste(food$address,food$city,food$state,food$zip);
-licenses$city <- NA;
-licenses$state <- NA;
-licenses$dayPhone <- NA;
-licenses$propertyId <- NA;
 licenses$location <- NA;
 licenses$addedDate <- NA;
-licenses$description <- NA;
 food$milestone <- NA;
 food$license <- NA;
 food <- data.frame(food$license,food$category,food$name,food$dba,food$address,
-                   food$status,food$milestone,food$zip,food$city,food$state,
-                   food$dayPhone,food$propertyId,food$location,food$addedDate,
-                   food$description);
+                   food$status,food$milestone,food$zip,food$location,food$addedDate);
 names(food) <- c('license','category','name','dba','address','status','milestone',
-                 'zip','city','state','dayPhone','propertyId','location','addedDate',
-                 'description');
+                 'zip','location','addedDate');
 licenses <- rbind(licenses,food);
 rm(food);
+
+# Convert dates to POSIX
+licenses$addedDate <- as.POSIXct(strptime(licenses$addedDate, "%m/%d/%Y %I:%M:%S %p"));
+# Split longitude and latitude
+licenses$long <- NA;
+licenses$lat <- NA;
+for (i in seq_along(licenses$location)) {
+  licenses$long[i] <- as.numeric(substr(strsplit(licenses$location[i],",")[[1]][1],2,12));
+  licenses$lat[i] <- as.numeric(substr(strsplit(licenses$location[i],",")[[1]][2],2,
+    nchar(strsplit(licenses$location[i],",")[[1]][2])-1));
+}
+# Purge unneeded fields
+licenses <- data.frame(licenses$license,licenses$category,licenses$name,licenses$dba,
+                  licenses$address,licenses$status,licenses$milestone,licenses$zip,
+                  licenses$long,licenses$lat,licenses$addedDate);
+names(licenses) <- c('license','category','name','dba','address','status','milestone',
+                 'zip','long','lat','addedDate');
 
 
 ## CAB DATA

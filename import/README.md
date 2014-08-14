@@ -18,5 +18,48 @@ Data is number of transactions recorded by MBTA fare gates, buses, and light rai
 * `tx`: number of transactions (people that got in).
 
 ## Licensing information dataset
+List of food and alcohol related licenses.
+
+####Field descriptions:
+
+* `license`: license number. Not available (`NA`) for food establishments (types `FT` and `FS`).
+* `category`: category of the establishment:
+  * `CV7MW`: Common Victualler License with Malt & Wines
+  * `CV7MWR`: Restricted Common Victualler License with Malt & Wines
+  * `CV7MWA`: Airport Common Victualler License with Malt & Wines
+  * `CV7MWLA`: Common Victualler License with Malt, Wines & Liqueurs
+  * `CV7MWLR`: Restricted Common Victualler License with Malt, Wines & Liqueurs
+  * `CV7MWLA`: Airport Common Victualler with Malt, Wines & Liqueurs
+  * `CV7AL`: Common Victualler License with All Alcoholic Beverages
+  * `CV7ALR`: Restricted Common Victualler License with All Alcoholic Beverages
+  * `CV7ALA`: Airport Common Victualler License with All Alcoholic Beverages
+  * `GOPAL`: General on Premise License with All Alcoholic Beverages
+  * `GOPALR`: Restricted General on Premise License with All Alcoholic Beverages
+  * `GOPMW`: General on Premise License with Malt & Wines
+  * `TAVAL`: Tavern All Alcoholic Beverages License
+  * `TAVMW`: Tavern Malt and Wines License
+  * `INNMW`: Innholders License with Malt & Wines
+  * `INNAL`: Innholders License with All Alcoholic Beverages
+  * `INNALR`: Restricted Innholders License with All Alcoholic Beverages
+  * `FW`: Farmer Winery License
+  * `FB`: Farmer Brewers License
+  * `CLBALA`: Airport Club License with All Alcoholic Beverages
+  * `CLBAL`: Club License with All Alcoholic Beverages
+  * `CLBALR`: Restricted Club License with All Alcoholic Beverages
+  * `CLBMW`: Club License with Malt & Wines
+  * `CLBMWR`: Restricted Club License with Malt & Wines
+  * `CLBMWA`: Airport Club License with Malt & Wines
+  * `CLBALV`: Veterans Club License with All Alcoholic Beverages
+  * `FT`: Food with takeout
+  * `FS`: Food without takeout
+* `name`: business name.
+* `dba`: doing business as.
+* `address`: establishment's address.
+* `status`: status of the license. It can be either `Active`, `Inactive` or `Void`.
+* `milestone`: milestone of the licensing process. It can be `Intake`, `Renewal`, `Waiting`, `Board Vote` and `Pay Fees`. Not available (`NA`) for food establishments (types `FT` and `FS`).
+* `zip`: zipcode.
+* `long`: longitude. Only for food establishments (types `FT` and `FS`).
+* `lat`: latitude. Only for food establishments (types `FT` and `FS`).
+* `addedDate`: date the license was added. Only for food establishments (types `FT` and `FS`). Format: `yyyy-mm-dd HH:MM:ss`.
 
 ## Cab trips dataset
