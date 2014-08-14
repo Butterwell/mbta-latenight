@@ -17,7 +17,7 @@ Data is number of transactions recorded by MBTA fare gates, buses, and light rai
 * `station`: name of the station of service.
 * `tx`: number of transactions (people that got in).
 
-## Licensing information dataset
+## Licensing information dataset (`licenses.csv`)
 List of food and alcohol related licenses.
 
 ####Field descriptions:
