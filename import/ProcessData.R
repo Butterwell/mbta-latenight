@@ -157,21 +157,23 @@ for (i in seq_along(endFiles)) {
     cabEnd <- rbind(cabEnd,tmp);
   }
 }
-rm(i);
-rm(tmp);
-rm(endFiles);
+rm(i,tmp,endFiles);
 
 # Merge start and end files by tripId in single data frame
 print('Merging by tripId...');
 cab <- merge(cabStart,cabEnd,by='tripId',all=TRUE);
-rm(cabStart);
-rm(cabEnd);
+rm(cabStart,cabEnd);
 
 # Date transformations
-cab$startDate <- as.Date(substr(as.character(cab$startDate), 1,
-                                nchar(as.character(cab$startDate))-5),"%m/%d/%Y");
-cab$endDate <- as.Date(substr(as.character(cab$endDate), 1,
-                                nchar(as.character(cab$endDate))-5),"%m/%d/%Y");
+cab$startDate <- strptime(paste(substr(as.character(cab$startDate), 1,
+              nchar(as.character(cab$startDate))-5),cab$startTime),"%m/%d/%Y %H:%M:%S");
+cab$endDate <- strptime(paste(substr(as.character(cab$endDate), 1,
+              nchar(as.character(cab$endDate))-5),cab$endTime),"%m/%d/%Y %H:%M:%S");
+# Delete unneeded fields
+cab <- data.frame(cab$tripId,cab$startDate,cab$startLong,cab$startLat,cab$startZip,
+                  cab$endDate,cab$endLong,cab$endLat,cab$endZip);
+names(cab) <- c('tripId','startDate','startLong','startLat','startZip',
+                'endDate','endLong','endLat','endZip');
 
 # Write out CSV files
 print('Writing CSV files...');
