@@ -6,14 +6,14 @@ library(plyr);
 print('Loading data...');
 txCabStart <- data.frame(cab$startZip, cab$startDate, 1);
 names(txCabStart) <- c('zip','datetime','tx');
-
-print('Rounding dates...');
+txCabStart <- txCabStart[!is.na(txCabStart$zip),];
 # round DOWN dates
 txCabStart$datetime <- as.POSIXct(format(strptime("1969-12-31 19:00", "%Y-%m-%d %H:%M") +
         round(as.numeric(txCabStart$datetime)/900)*900,"%Y-%m-%d %H:%M:%S"));
 
 txCabEnd <- data.frame(cab$endZip, cab$endDate, 1);
 names(txCabEnd) <- c('zip','datetime','tx');
+txCabEnd <- txCabEnd[!is.na(txCabEnd$zip),];
 # round UP dates
 txCabEnd$datetime <- as.POSIXct(format(strptime("1969-12-31 19:00", "%Y-%m-%d %H:%M") +
         round(as.numeric(txCabEnd$datetime)/900)*900,"%Y-%m-%d %H:%M:%S"));
