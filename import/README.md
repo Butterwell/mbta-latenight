@@ -16,6 +16,7 @@ Data is number of transactions recorded by MBTA fare gates, buses, and light rai
 * `line`: line of service. Values: `Bus`, `Blue`, `Green`, `Orange`, `Red` and `Silver`.
 * `station`: name of the station of service.
 * `tx`: number of transactions (people that got in).
+* `zip`: zipcode (only for T stations, `NA` otherwise).
 
 ## Licensing information dataset (`licenses.csv`)
 List of food and alcohol related licenses.
