@@ -1,0 +1,2 @@
+# Out and about
+The purpose of this script is producing a dataset containing the number of transactions per zipcode per 15-minute interval. We can use this data as a proxy for how many people were in a specific zipcode area at a given time. We will aggregate data from T station transactions and cab pick-ups and drop-offs. For simplicity, we will equate one cab transaction to one person, although we might introduce weights if we need to (maybe 1.5 people in average per ride).
