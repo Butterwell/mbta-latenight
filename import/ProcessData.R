@@ -37,6 +37,74 @@ ridership <- data.frame(ridership$datetime, ridership$dateOfService, ridership$h
 names(ridership) <- c('datetime', 'dateOfService', 'hour', 'min', 'day', 'latenight',
                       'line', 'station', 'tx');
 
+# Map zipcodes for known stations
+ridership$zip <- NA;
+ridership$zip[ridership$station == 'Airport'] <- '02128';
+ridership$zip[ridership$station == 'Alewife'] <- '02140';
+ridership$zip[ridership$station == 'Andrew Square'] <- '02127';
+ridership$zip[ridership$station == 'Aquarium'] <- '02110';
+ridership$zip[ridership$station == 'Arlington'] <- '02476';
+ridership$zip[ridership$station == 'Ashmont '] <- '02124';
+ridership$zip[ridership$station == 'Back Bay'] <- '02116';
+ridership$zip[ridership$station == 'Beachmont'] <- '02151';
+###### TODO!! Find and replace actual zipcodes below this line!
+ridership$zip[ridership$station == 'Bowdoin'] <- '00000';
+ridership$zip[ridership$station == 'Boylston'] <- '00000';
+ridership$zip[ridership$station == 'Braintree'] <- '00000';
+ridership$zip[ridership$station == 'Broadway '] <- '00000';
+ridership$zip[ridership$station == 'Central Square'] <- '00000';
+ridership$zip[ridership$station == 'Charles MGH'] <- '00000';
+ridership$zip[ridership$station == 'Chinatown'] <- '00000';
+ridership$zip[ridership$station == 'Community College'] <- '00000';
+ridership$zip[ridership$station == 'Copley Square'] <- '00000';
+ridership$zip[ridership$station == 'Courthouse '] <- '00000';
+ridership$zip[ridership$station == 'Davis Square'] <- '00000';
+ridership$zip[ridership$station == 'Downtown Crossing'] <- '00000';
+ridership$zip[ridership$station == 'Fields Corner'] <- '00000';
+ridership$zip[ridership$station == 'Forest Hills '] <- '00000';
+ridership$zip[ridership$station == 'Government Center'] <- '00000';
+ridership$zip[ridership$station == 'Green Street '] <- '00000';
+ridership$zip[ridership$station == 'Harvard'] <- '00000';
+ridership$zip[ridership$station == 'Haymarket'] <- '00000';
+ridership$zip[ridership$station == 'Hynes'] <- '00000';
+ridership$zip[ridership$station == 'Jackson Square'] <- '00000';
+ridership$zip[ridership$station == 'JFK/U Mass'] <- '00000';
+ridership$zip[ridership$station == 'Kendall Square '] <- '00000';
+ridership$zip[ridership$station == 'Kenmore Square'] <- '00000';
+ridership$zip[ridership$station == 'Lechmere'] <- '00000';
+ridership$zip[ridership$station == 'Malden Center '] <- '00000';
+ridership$zip[ridership$station == 'Mass Ave'] <- '00000';
+ridership$zip[ridership$station == 'Mattapan Line'] <- '00000';
+ridership$zip[ridership$station == 'Maverick '] <- '00000';
+ridership$zip[ridership$station == 'North Quincy'] <- '00000';
+ridership$zip[ridership$station == 'North Station'] <- '00000';
+ridership$zip[ridership$station == 'Oak Grove'] <- '00000';
+ridership$zip[ridership$station == 'Orient Heights'] <- '00000';
+ridership$zip[ridership$station == 'Park Street'] <- '00000';
+ridership$zip[ridership$station == 'Porter Square '] <- '00000';
+ridership$zip[ridership$station == 'Prudential'] <- '00000';
+ridership$zip[ridership$station == 'Quincy Adams'] <- '00000';
+ridership$zip[ridership$station == 'Quincy Center'] <- '00000';
+ridership$zip[ridership$station == 'Revere Beach'] <- '00000';
+ridership$zip[ridership$station == 'Riverside'] <- '00000';
+ridership$zip[ridership$station == 'Roxbury Crossing '] <- '00000';
+ridership$zip[ridership$station == 'Ruggles'] <- '00000';
+ridership$zip[ridership$station == 'Savin Hill'] <- '00000';
+ridership$zip[ridership$station == 'Science Park'] <- '00000';
+ridership$zip[ridership$station == 'Shawmut'] <- '00000';
+ridership$zip[ridership$station == 'South Station'] <- '00000';
+ridership$zip[ridership$station == 'State Street '] <- '00000';
+ridership$zip[ridership$station == 'Stony Brook'] <- '00000';
+ridership$zip[ridership$station == 'Suffolk Downs'] <- '00000';
+ridership$zip[ridership$station == 'Sullivan Square'] <- '00000';
+ridership$zip[ridership$station == 'Symphony'] <- '00000';
+ridership$zip[ridership$station == 'Tufts Medical Center'] <- '00000';
+ridership$zip[ridership$station == 'Wellington '] <- '00000';
+ridership$zip[ridership$station == 'Wollaston'] <- '00000';
+ridership$zip[ridership$station == 'Wonderland'] <- '00000';
+ridership$zip[ridership$station == 'Wood Island'] <- '00000';
+ridership$zip[ridership$station == 'World Trade Center'] <- '00000';
+
 
 
 ## LICENSES
@@ -174,6 +242,17 @@ cab <- data.frame(cab$tripId,cab$startDate,cab$startLong,cab$startLat,cab$startZ
                   cab$endDate,cab$endLong,cab$endLat,cab$endZip);
 names(cab) <- c('tripId','startDate','startLong','startLat','startZip',
                 'endDate','endLong','endLat','endZip');
+
+# Make sure we have nice 5-digit strings as zipcodes
+ridership$zip <- sprintf('%05.0f',as.numeric(as.character(ridership$zip)));
+ridership$zip[ridership$zip=='000NA'] <- NA;
+licenses$zip <- sprintf('%05.0f',as.numeric(as.character(licenses$zip)));
+licenses$zip[licenses$zip=='000NA'] <- NA;
+cab$startZip <- sprintf('%05.0f',as.numeric(as.character(cab$startZip)));
+cab$startZip[cab$startZip=='000NA'] <- NA;
+cab$endZip <- sprintf('%05.0f',as.numeric(as.character(cab$endZip)));
+cab$endZip[cab$endZip=='000NA'] <- NA;
+
 
 # Write out CSV files
 print('Writing CSV files...');
