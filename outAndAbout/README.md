@@ -1,5 +1,8 @@
 # Out and about
-The purpose of this script is producing a dataset containing the number of transactions per zipcode per 15-minute interval. We can use this data as a proxy for how many people were in a specific zipcode area at a given time. We will aggregate data from T station transactions and cab pick-ups and drop-offs. For simplicity, we will equate one cab transaction to one person, although we might introduce weights if we need to (maybe 1.5 people in average per ride).
+The purpose of this script is producing datasets containing number of events by zipcode in order to explore possible correlations between them.
+
+## Transactions by zipcode (`txs.csv`)
+This dataset contains the number of transactions per zipcode per 15-minute interval. We can use this data as a proxy for how many people were in a specific zipcode area at a given time. We will aggregate data from T station transactions and cab pick-ups and drop-offs. For simplicity, we will equate one cab transaction to one person, although we might introduce weights if we need to (maybe 1.5 people in average per ride).
 
 There are four 15-minute windows: `00`, `15`, `30` and `45`. Since we are using the number of transactions as a proxy for the number of people at a speficic time, the following adjustments were made to the datasets:
 
@@ -12,3 +15,5 @@ There are four 15-minute windows: `00`, `15`, `30` and `45`. Since we are using 
 * `zip`: 5 digit string representation of the zipcode.
 * `datetime`: date and time of the start of the 15-minute window. Format: `yyyy-mm-dd HH:MM:ss`.
 * `tx`: number of transactions.
+
+## Crimes by zipcode (`crime.csv`)

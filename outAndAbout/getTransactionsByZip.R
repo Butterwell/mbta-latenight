@@ -37,10 +37,10 @@ rm(txCabStart,txCabEnd,txTrain);
 
 # Write out CSV file
 print('Writing CSV file...');
-write.csv(txs,'outandabout.csv',row.names=FALSE);
+write.csv(txs,'txs.csv',row.names=FALSE);
 
 # Save R objects
 print('Saving R object...');
-save(txs,file='outAndAbout.R');
+save(txs,file='txs.R');
 
 print('Done!');
