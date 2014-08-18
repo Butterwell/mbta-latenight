@@ -63,8 +63,8 @@ List of food and alcohol related licenses.
 * `lat`: latitude. Only for food establishments (types `FT` and `FS`).
 * `addedDate`: date the license was added. Only for food establishments (types `FT` and `FS`). Format: `yyyy-mm-dd HH:MM:ss`.
 
-## Cab trips dataset (`cab.csv`)
-Information about cab trips with times and pick-up and drop-off locations (except for residential areas, where only the zipcode is available). This file was too big. Instead of making it part of the repository, a zipped version can be downloaded [here](https://s3.amazonaws.com/dl-bucket/mbta-latenightT/cab.zip) (60MB).
+## Cab trips dataset (`cab.csv` zipped into `cab.zip`)
+Information about cab trips with times and pick-up and drop-off locations (except for residential areas, where only the zipcode is available).
 
 ####Field descriptions
 * `tripId`: unique idientifier for the trip.

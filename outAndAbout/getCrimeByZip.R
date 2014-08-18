@@ -4,6 +4,7 @@
 ################################################################
 
 # Load dataset
+unzip('../data/crime.zip', exdir='../data')
 crime <- read.csv('../data/Crime_Incident_Reports.csv', header=TRUE);
 
 # Convert date

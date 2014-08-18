@@ -254,6 +254,8 @@ cab$endZip[cab$endZip=='000NA'] <- NA;
 # Write out CSV files
 print('Writing CSV files...');
 write.csv(cab,'cab.csv',row.names=FALSE);
+# Compress big csv file
+zip('cab.zip','cab.csv');
 write.csv(licenses,'licenses.csv',row.names=FALSE);
 write.csv(ridership,'ridership.csv',row.names=FALSE);
 
