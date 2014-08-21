@@ -45,5 +45,6 @@ for row in data:
 data = np.column_stack(	(data[:,1], 		data[:,22],	data[:,26],	data[:,25],	data[:,0])	)
 
 open_file_object = csv.writer(open("hotline.csv", "wb"))
+open_file_object.writerow(['opened','zipcode','longitude', 'latitude', 'case#'])
 for row in data:
 	open_file_object.writerow(row)
