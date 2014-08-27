@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://d3js.org/topojson.v1.min.js"></script>
+    <script src="http://d3js.org/queue.v1.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="colorbrewer.css"/>
+    <style type="text/css">
+
+#districts path {
+  stroke: #fff;
+  stroke-width: .25px;
+}
+
+#cities path {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
+
+.graticule {
+  fill: none;
+  stroke: #777;
+  stroke-opacity: .5;
+  stroke-width: .5px;
+}
+
+.land {
+  fill: #999;
+}
+
+.boundary {
+  fill: none;
+  stroke: #fff;
+  stroke-width: .5px;
+}
+
+.place {
+  fill: #f00;
+}
+
+.stop {
+  fill: #00f;
+}
+
+.place-label {
+  font-family: arial;
+  font-size: 0.001em;
+  opacity: 0;
+}
+
+.place-label:hover {
+  font-size: 0.8em;
+  opacity: 1;
+  color: #222; 
+  background: #fff; 
+  padding: .5em; 
+  text-shadow: #f5f5f5 0 1px 0;
+  border-radius: 2px; 
+  box-shadow: 0px 0px 2px 0px #a6a6a6; 
+  opacity: 0.9; 
+  position: absolute;
+}
+
+.tooltip {
+  color: #222; 
+  background: #fff; 
+  padding: .5em; 
+  text-shadow: #f5f5f5 0 1px 0;
+  border-radius: 2px; 
+  box-shadow: 0px 0px 2px 0px #a6a6a6; 
+  opacity: 0.9; 
+  position: absolute;
+}
+
+    </style>
+  </head>
+  <body>
+    <div id="body"></div>
+    <script>
+
+function redraw() {
+    svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+}
+
+var width = 1280
+var height = 600
+var svg = d3.select("#body").append("svg:svg")
+    .attr("class", "Blues")
+    .attr("width", width)
+    .attr("height", height);
+
+var districts = svg.append("svg:g")
+    .attr("id", "districts");
+
+// Geographic center of Massachusetts: 72°1.9'W 42°20.4'N
+
+// Boson: 42.3581° N, 71.0636° W
+var projection = d3.geo.albers()
+    .center([0, 42.3581])
+    .rotate([71.0636, 0])
+    .scale(300000)
+    .translate([width / 3, height / 2])
+
+d3.json("zip-typo.json", function(error, z) {
+  if (error) return console.error(error)
+  var zip = topojson.feature(z, z.objects.x)
+    
+  svg.append("path", ".graticule")
+    .datum(zip)
+    .attr("d", path)
+    .attr("fill", "none").attr("stroke", "#000")
+})
+
+var path = d3.geo.path()
+    .projection(projection)
+    .pointRadius(2)
+
+var stop = d3.geo.path()
+    .projection(projection)
+    .pointRadius(2)
+
+var vehicles = function(loc) {
+  // Dots      
+  svg.append("path")
+    .datum(topojson.feature(loc, loc.objects.vehicle))
+    .attr("d", path)
+    .attr("class", "place")
+}
+
+var stops = function(loc) {
+  // Dots      
+  svg.append("path")
+    .datum(topojson.feature(loc, loc.objects.vehicle))
+    .attr("d", stop)
+    .attr("class", "stop")
+}
+
+var vehicle_geojson = function(json) {
+  // , vehicle.vehicle_timestamp
+  // , vehicle.vehicle_id
+
+  var geo = []
+  var trips = json.direction[0].trip
+  for (var i = 0; i < trips.length; i++) {
+    var point = [ trips[i].vehicle.vehicle_lon, trips[i].vehicle.vehicle_lat ]
+    geo.push({
+      "type": "Point"
+    , "coordinates": point
+    })
+  }
+  trips = json.direction[1].trip
+  for (var i = 0; i < trips.length; i++) {
+    var point = [ trips[i].vehicle.vehicle_lon, trips[i].vehicle.vehicle_lat ]
+    geo.push({
+      "type": "Point"
+    , "coordinates": point
+    })
+  }
+
+  return {
+  "type": "Topology",
+  "objects": {
+    "vehicle": {
+      "type": "GeometryCollection",
+      "geometries": geo
+//      "geometries": [{
+//        "type": "Point",
+//        "coordinates": point
+//        "coordinates": [ -71.0836791992 , 42.3298416138 ]
+//        },{
+//          "type": "Point",
+//          "coordinates": [ -71.086730957 , 42.3451957703 ]
+//        },{
+//          "type": "Point",
+//          "coordinates": [ -71.0913543701 , 42.3547782898 ]
+//        }]
+      }
+    }
+  } 
+}
+
+var stop_geojson = function(json) {
+  var geo = []
+  var trips = json.direction[0].stop
+  for (var i = 0; i < trips.length; i++) {
+    var point = [ trips[i].stop_lon, trips[i].stop_lat ]
+    geo.push({
+      "type": "Point"
+    , "coordinates": point
+    })
+  }
+  trips = json.direction[1].stop
+  for (var i = 0; i < trips.length; i++) {
+    var point = [ trips[i].stop_lon, trips[i].stop_lat ]
+    geo.push({
+      "type": "Point"
+    , "coordinates": point
+    })
+  }
+
+  return {
+  "type": "Topology",
+  "objects": {
+    "vehicle": {
+      "type": "GeometryCollection",
+      "geometries": geo
+      }
+    }
+  } 
+}
+
+var update_bus = function() {
+  $.getJSON("http://54.81.189.97/developer/api/v2/vehiclesbyroute?api_key=wX9NwuHnZU2ToO7GmGR9uw&route=01&format=json", function( data ) {
+    //console.log(data)
+    var geojson = vehicle_geojson(data)
+    //console.log(geojson)
+    vehicles(geojson)
+  })
+}
+
+var timeoutID
+function timed_update() {
+  timeoutID = window.setTimeout(function() {
+    update_bus()
+    timed_update()
+  }, 20*1000)
+}
+
+$.getJSON("http://54.81.189.97/developer/api/v2/stopsbyroute?api_key=wX9NwuHnZU2ToO7GmGR9uw&route=01&format=json", function( data ) {
+    //console.log(data)
+    var geojson = stop_geojson(data)
+    stops(geojson)
+})
+
+timed_update()
+    </script>
+  </body>
+</html>
