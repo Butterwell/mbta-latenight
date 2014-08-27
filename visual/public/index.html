@@ -105,6 +105,11 @@ var projection = d3.geo.albers()
     .scale(300000)
     .translate([width / 3, height / 2])
 
+d3.csv("outAndAbout/merged.csv", function(error, c) {
+  if (error) return console.error(error)
+  console.log(c[0])
+})
+
 d3.json("zip-typo.json", function(error, z) {
   if (error) return console.error(error)
   var zip = topojson.feature(z, z.objects.x)
