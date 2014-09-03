@@ -8,6 +8,8 @@
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- our own CSS -->
+    <link href="css/latenight.css" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -17,9 +19,23 @@
     <![endif]-->
   </head>
   <body>
-    <img src="images/compComplaints.png" class="img-responsive" alt="Complaints comparison">
-    <img src="images/compEmergencies.png" class="img-responsive" alt="Emergencies comparison">
-    <img src="images/compCrime.png" class="img-responsive" alt="Crime comparison">
+
+    <div class="container">
+        <h1>MBTA Late Night T <small>Data Challenge</small></h1>
+        <p class="lead">Exploring the effects of the Late Night T service on the
+            weekends on reported crime, Mayor's hotline complaints and emergency room visits.</p>
+
+
+        <h4>Complaints vs. Number of people out</h4>
+        <img src="images/compComplaints.png" class="img-thumbnail" alt="Complaints comparison">
+        <h4>Emergencies vs. Number of people out</h4>
+        <img src="images/compEmergencies.png" class="img-thumbnail" alt="Emergencies comparison">
+        <h4>Crime vs. Number of people out</h4>
+        <img src="images/compCrime.png" class="img-thumbnail" alt="Crime comparison">
+    
+
+
+    </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="js/jquery.min.js"></script>
