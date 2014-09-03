@@ -2,6 +2,7 @@
 
 load('txs.R');
 load('crime.R');
+library(plyr);
 ems <- read.csv('../import/EMSDaily.csv',header=T);
 hotline <- read.csv('../import/hotline.csv',header=T);
 names(hotline) <- c('year','nday','complaints');
@@ -38,7 +39,6 @@ names(merged) <- c('nday','zip','people2013','people2014','crime2013','crime2014
 merged <- merged[merged$nday >= 25,];
  
 # Aggregate by zipcode
-library(plyr);
 mzip <- ddply(merged, 'nday', c(function(df)sum(df$people2013),function(df)sum(df$people2014),
         function(df)sum(df$crime2013,na.rm=T),function(df)sum(df$crime2014,na.rm=T),
         function(df)sum(df$emergencies2013,na.rm=T),function(df)sum(df$emergencies2014,na.rm=T),
@@ -50,18 +50,25 @@ names(mzip) <- c('nday','people2013','people2014','crime2013','crime2014',
 mzip <- mzip[c(1:6,8:20),];
       
 # Plot differential in people vs. differential in crime
+library(ggplot2);
 compCrime <- data.frame(mzip$people2014-mzip$people2013,mzip$crime2014-mzip$crime2013);
 names(compCrime) <- c('peopleIncrease','crimeIncrease');
+png(filename='compCrime.png',width=600,height=600);
 ggplot(compCrime, aes(x=peopleIncrease, y=crimeIncrease)) + geom_point() + stat_smooth(method="lm");
+dev.off();
 
 # Plot differential in people vs. differential in emergencies
-compCrime <- data.frame(mzip$people2014-mzip$people2013,mzip$emergencies2014-mzip$emergencies2013);
-names(compCrime) <- c('peopleIncrease','emergenciesIncrease');
-ggplot(compCrime, aes(x=peopleIncrease, y=emergenciesIncrease)) + geom_point() + stat_smooth(method="lm");
+compEmergencies <- data.frame(mzip$people2014-mzip$people2013,mzip$emergencies2014-mzip$emergencies2013);
+names(compEmergencies) <- c('peopleIncrease','emergenciesIncrease');
+png(filename='compEmergencies.png',width=600,height=600);
+ggplot(compEmergencies, aes(x=peopleIncrease, y=emergenciesIncrease)) + geom_point() + stat_smooth(method="lm");
+dev.off();
 
 # Plot differential in people vs. differential in crime
-compCrime <- data.frame(mzip$people2014-mzip$people2013,mzip$hotline2014-mzip$hotline2013);
-names(compCrime) <- c('peopleIncrease','hotlineIncrease');
-ggplot(compCrime, aes(x=peopleIncrease, y=hotlineIncrease)) + geom_point() + stat_smooth(method="lm");
+compComplaints <- data.frame(mzip$people2014-mzip$people2013,mzip$complaints2014-mzip$complaints2013);
+names(compComplaints) <- c('peopleIncrease','hotlineIncrease');
+png(filename='compComplaints.png',width=600,height=600);
+ggplot(compComplaints, aes(x=peopleIncrease, y=hotlineIncrease)) + geom_point() + stat_smooth(method="lm");
+dev.off();
 
 print('Done!');
