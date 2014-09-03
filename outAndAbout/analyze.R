@@ -52,21 +52,16 @@ mzip <- mzip[c(1:6,8:20),];
 # Plot differential in people vs. differential in crime
 compCrime <- data.frame(mzip$people2014-mzip$people2013,mzip$crime2014-mzip$crime2013);
 names(compCrime) <- c('peopleIncrease','crimeIncrease');
-library(ggplot2);
 ggplot(compCrime, aes(x=peopleIncrease, y=crimeIncrease)) + geom_point() + stat_smooth(method="lm");
 
 # Plot differential in people vs. differential in emergencies
 compCrime <- data.frame(mzip$people2014-mzip$people2013,mzip$emergencies2014-mzip$emergencies2013);
 names(compCrime) <- c('peopleIncrease','emergenciesIncrease');
-library(ggplot2);
 ggplot(compCrime, aes(x=peopleIncrease, y=emergenciesIncrease)) + geom_point() + stat_smooth(method="lm");
 
 # Plot differential in people vs. differential in crime
 compCrime <- data.frame(mzip$people2014-mzip$people2013,mzip$hotline2014-mzip$hotline2013);
 names(compCrime) <- c('peopleIncrease','hotlineIncrease');
-library(ggplot2);
 ggplot(compCrime, aes(x=peopleIncrease, y=hotlineIncrease)) + geom_point() + stat_smooth(method="lm");
-
-
 
 print('Done!');
