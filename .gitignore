@@ -1,1 +1,5 @@
 node_modules/
+.Rapp.history
+data/Crime_Incident_Reports.csv
+data/Mayor_s_24_Hour_Hotline__Service_Requests.csv
+import/cab.csv
