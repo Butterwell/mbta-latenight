@@ -1,7 +1,21 @@
-body {
-    font-size: 16px;
+html { 
+    background: url(../images/mbta-bus.jpg) no-repeat center center fixed; 
+    -webkit-background-size: cover; 
+    -moz-background-size: cover; 
+    -o-background-size: cover; 
+    background-size: cover; 
+} 
+                    
+body { 
+    padding-top: 70px; 
+    padding-left: 40px; 
+    padding-right: 40px; 
+    padding-bottom: 10px; 
+    font-size: 16px; 
+    background-color: transparent; 
+    background: transparent; 
 }
-
+ 
 .git-ribbon {
     background-color: #a00;
     overflow: hidden;
