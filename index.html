@@ -27,7 +27,7 @@
 
     <div class="container" style="margin-top: 40px; margin-bottom: 80px;">
         <h1>MBTA Late Night T <small>Data Challenge</small></h1>
-        <p class="lead">Exploring the effects of the Late Night T service on reported crime, emergencie room visits and Mayor's hotline complaints.</p>
+        <p class="lead">Exploring the effects of the Late Night T service on reported crime, emergency room visits and Mayor's hotline complaints.</p>
 
 
         <h3>Introduction</h3>
@@ -55,11 +55,10 @@
             (when there was no late night service) to correlate it to the other datasets and observe their relationships.
         </p>
         <p>
-            We joined the data of the external datasets with the ridership data, and filtered just Fridays and Saturdays.
-            Then, we assigned them ordinal numbers representing their position in the year if counting only Fridays and Saturdays (i.e.: 2013's first Friday was #1, the Saturday after that was #2, the following Friday #3... and
+            We joined the data of the external datasets with the ridership data, including just Fridays and Saturdays.
+            Then, we assigned them ordinal numbers representing their position in the year, counting only Fridays and Saturdays (i.e.: 2013's first Friday was #1, the Saturday after that was #2, the following Friday #3... and
             so on). This allowed us to match "equivalent" Fridays from both years (for example, day #17 is a Friday
-            roughly around the same dates in 2013 and 2014). Finally, we filtered out the day around 2013's Marathon's
-            bombings, because it was a huge outlier (there were very few rides that day in 2013). This left us with 19
+            around the same date in 2013 and 2014). Finally, we filtered out the days after the 2013 Boston Marathon. Because of the bombing, many people stayed in and it was a huge outlier (there were very few rides. This left us with 19
             data points of the <i>19 Fridays and Saturdays for which we had data from 2013 <strong>without</strong> late
             night service and 2014 <strong>with</strong> late night service.</i>
         </p>
@@ -81,7 +80,7 @@
         <img src="images/compCrime.png" class="img-thumbnail" alt="Crime comparison">
         
 
-        <h4 style="margin-top: 40px;">Emergencie room visits vs. number of people out</h4>
+        <h4 style="margin-top: 40px;">Emergency room visits vs. number of people out</h4>
         <p>The intercept for this linear regression is possitive, around 70 emergency visits more per day in 2014 compared
             to 2013, meaning that, other things aside, there was a possitive trend in emergency visits. Regardless, keeping everything else constant, the days with increased ridership show lower emergency room visits:</p>
         <img src="images/compEmergencies.png" class="img-thumbnail" alt="Emergencies comparison">
